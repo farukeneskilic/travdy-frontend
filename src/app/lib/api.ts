@@ -1,5 +1,4 @@
 // lib/api.ts
-import 'server-only'
 import {Attraction} from './types'
 
 // For now we use mock data. Swap these with your backend calls.

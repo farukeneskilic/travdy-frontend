@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travdy Logo Generator</title>
+</head>
+<body>
+    <canvas id="logoCanvas" width="240" height="80"></canvas>
+    <br><br>
+    <button onclick="downloadLogo()">Download PNG Logo</button>
+
+    <script>
+        const canvas = document.getElementById('logoCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 240, 80);
+        gradient.addColorStop(0, '#4ECDC4');  // Turquoise
+        gradient.addColorStop(0.5, '#FFB84D'); // Orange
+        gradient.addColorStop(1, '#4CAF50');   // Green
+
+        // Draw background
+        ctx.fillStyle = gradient;
+        ctx.roundRect(0, 0, 240, 80, 16);
+        ctx.fill();
+
+        // Add text
+        ctx.font = 'bold 32px system-ui, Arial, sans-serif';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Travdy', 120, 40);
+
+        // Add decorative elements
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.beginPath();
+        ctx.arc(30, 20, 6, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(210, 60, 4, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Add airplane icon
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.font = '16px system-ui';
+        ctx.fillText('✈', 200, 25);
+
+        function downloadLogo() {
+            const link = document.createElement('a');
+            link.download = 'travdy-logo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Add roundRect method if not available
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,8 +1,7 @@
-// app/page.tsx
 import Image from 'next/image'
-import Navbar from '../../components/Navbar'
-import Section from '../../components/Section'
-import AttractionCard from '../../components/AttractionCard'
+import Navbar from '../components/Navbar'
+import Section from '../components/Section'
+import AttractionCard from '../components/AttractionCard'
 import {getFeaturedCities, getTopAttractions} from '@/app/lib/api'
 
 export default async function Page() {
@@ -35,12 +34,12 @@ export default async function Page() {
 
             {/* Top attractions (cities grid) */}
             <Section id="attractions" title="Top attractions">
-                {cities.map(city => (<AttractionCard key={city.id} a={city}/>))}
+                {cities.map(city => (<AttractionCard key={city.id} attraction={city}/>))}
             </Section>
 
             {/* Highly rated carousel */}
             <Section id="top-picks" title="Highly rated attractions" asCarousel>
-                {top.map(a => (<AttractionCard key={a.id} a={a}/>))}
+                {top.map(attraction => (<AttractionCard key={attraction.id} attraction={attraction}/>))}
             </Section>
 
             {/* Promo banner */}

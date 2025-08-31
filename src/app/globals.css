@@ -1,14 +1,49 @@
 /* app/globals.css */
 :root {
-    --td-blue: #1E88E5;
-    --td-orange: #FB8C00;
-    --td-green: #43A047;
-    --td-dark: #0F172A;
-    --td-light: #F1F5F9;
+    /* Primary Color Scheme: Turquoise-Orange-Green */
+    --td-turquoise: #4ECDC4;
+    --td-turquoise-light: #7EDDD6;
+    --td-turquoise-dark: #3AACA5;
+    --td-orange: #FFB84D;
+    --td-orange-light: #FFC876;
+    --td-orange-dark: #E69A33;
+    --td-green: #4CAF50;
+    --td-green-light: #81C784;
+    --td-green-dark: #388E3C;
+    
+    /* Legacy aliases for compatibility */
+    --td-blue: #4ECDC4;
+    --td-primary: #4ECDC4;
+    
+    /* Neutral Colors */
+    --td-dark: #1A202C;
+    --td-dark-light: #2D3748;
+    --td-light: #F7FAFC;
+    --td-gray: #718096;
+    --td-gray-light: #E2E8F0;
+    --td-white: #FFFFFF;
+    
+    /* Gradients */
+    --td-gradient-primary: linear-gradient(135deg, var(--td-turquoise) 0%, var(--td-orange) 50%, var(--td-green) 100%);
+    --td-gradient-turquoise: linear-gradient(135deg, var(--td-turquoise-light) 0%, var(--td-turquoise) 100%);
+    --td-gradient-orange: linear-gradient(135deg, var(--td-orange-light) 0%, var(--td-orange) 100%);
+    --td-gradient-green: linear-gradient(135deg, var(--td-green-light) 0%, var(--td-green) 100%);
+    
+    /* Design System */
     --td-radius: 12px;
-    --td-gap: 10px;
-    --td-shadow: 0 2px 10px rgba(0, 0, 0, .06);
+    --td-radius-sm: 8px;
+    --td-radius-lg: 16px;
+    --td-gap: 1rem;
+    --td-gap-sm: 0.5rem;
+    --td-gap-lg: 1.5rem;
+    --td-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --td-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
     --td-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    
+    /* Transitions */
+    --td-transition: all 0.2s ease;
+    --td-transition-fast: all 0.15s ease;
+    --td-transition-slow: all 0.3s ease;
 }
 
 * {
@@ -38,24 +73,70 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 14px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 999px;
-    color: #fff;
+    border-radius: var(--td-radius);
+    color: var(--td-white);
     font-weight: 600;
-    cursor: pointer
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: var(--td-transition);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
 }
 
-.btn-blue {
-    background: var(--td-blue)
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--td-shadow-lg);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: var(--td-gradient-primary);
+}
+
+.btn-turquoise {
+    background: var(--td-gradient-turquoise);
 }
 
 .btn-orange {
-    background: var(--td-orange)
+    background: var(--td-gradient-orange);
 }
 
 .btn-green {
-    background: var(--td-green)
+    background: var(--td-gradient-green);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--td-turquoise);
+    color: var(--td-turquoise);
+}
+
+.btn-outline:hover {
+    background: var(--td-turquoise);
+    color: var(--td-white);
+}
+
+/* Legacy compatibility */
+.btn-blue {
+    background: var(--td-gradient-turquoise);
+}
+
+.btn-white {
+    background: var(--td-white);
+    color: var(--td-dark);
+    border: 2px solid transparent;
+}
+
+.btn-white:hover {
+    background: var(--td-light);
+    transform: translateY(-1px);
+    box-shadow: var(--td-shadow-lg);
 }
 
 .card {

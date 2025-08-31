@@ -56,9 +56,10 @@ export default function TravelBudgetPage() {
         <main className="container" style={{paddingTop: 16, paddingBottom: 24}}>
             {/* top nav mimic (optional: if you don’t already show Navbar here) */}
             <header style={{display: 'flex', justifyContent: 'flex-end', gap: 16, marginBottom: 8}}>
-                <Link href="/public">Home</Link>
-                <a href="/travel-budget" aria-current="page">Travel Budget</a>
-                <a href="/login">Login</a>
+                <Link href="/">Home</Link>
+                <Link href="/travel-budget" aria-current="page">Travel Budget</Link>
+                <Link href="/travel-planning">Travel Planning</Link>
+                <Link href="/login">Login</Link>
             </header>
 
             <div style={{
