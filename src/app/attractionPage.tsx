@@ -3,10 +3,9 @@ import Image from 'next/image'
 import Navbar from './components/Navbar'
 import Section from '../app/components/Section'
 import AttractionCard from '../app/components/AttractionCard'
-import {getFeaturedCities, getTopAttractions} from '@/app/lib/api'
-import HeroSearch from "@/app/components/HeroSearch";
+import {getFeaturedCities, getTopAttractions} from '../app/lib/api'
 
-export default async function Home() {
+export default async function AttractionPage() {
     const [cities, top] = await Promise.all([getFeaturedCities(), getTopAttractions()])
 
     const handleSearch = `(() => {
@@ -30,10 +29,6 @@ export default async function Home() {
                     <div className="hero-content">
                         <h1 style={{fontSize: 36, fontWeight: 800, margin: 0}}>Discover the best sights with Travdy</h1>
                         <p style={{opacity: .95, margin: '6px 0 14px'}}>Explore amazing attractions in your city!</p>
-                        {//<HeroSearch onSearch={() => { /* handled client-side */
-                            //}}/>
-                        }
-                        <HeroSearch /> {}
                     </div>
                 </div>
             </section>
@@ -46,7 +41,6 @@ export default async function Home() {
             {/* Highly rated carousel */}
             <Section id="top-picks" title="Highly rated attractions" asCarousel>
                 {top.map(a => (<AttractionCard key={a.id} a={a}/>))}
-                {top.map(t => (<AttractionCard key={t.id} a={t}/>))}
             </Section>
 
             {/* Promo banner */}
