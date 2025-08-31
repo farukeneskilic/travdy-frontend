@@ -1,11 +1,11 @@
 // app/page.tsx
 import Image from 'next/image'
-import Navbar from './components/Navbar'
-import Section from '../app/components/Section'
-import AttractionCard from '../app/components/AttractionCard'
-import {getFeaturedCities, getTopAttractions} from '../app/lib/api'
+import Navbar from '../../components/Navbar'
+import Section from '../../components/Section'
+import AttractionCard from '../../components/AttractionCard'
+import {getFeaturedCities, getTopAttractions} from '@/app/lib/api'
 
-export default async function AttractionPage() {
+export default async function Page() {
     const [cities, top] = await Promise.all([getFeaturedCities(), getTopAttractions()])
 
     const handleSearch = `(() => {
