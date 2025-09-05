@@ -1,44 +1,31 @@
-'use client'
+'use client';
 
-import { ReactNode } from 'react'
-import Navbar from '../Navbar'
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
 
 interface MainLayoutProps {
-  children: ReactNode
-  showNavbar?: boolean
-  className?: string
+  children: React.ReactNode;
+  className?: string;
+  showHeader?: boolean;
+  showFooter?: boolean;
 }
 
 export default function MainLayout({ 
   children, 
-  showNavbar = true, 
-  className = '' 
+  className = '',
+  showHeader = true,
+  showFooter = true 
 }: MainLayoutProps) {
   return (
-    <div className={`main-layout ${className}`}>
-      {showNavbar && <Navbar />}
-      <main className="main-content">
+    <div className={`min-h-screen flex flex-col ${className}`}>
+      {showHeader && <Header />}
+      
+      <main className={`flex-1 ${showHeader ? 'pt-16 lg:pt-20' : ''}`}>
         {children}
       </main>
-
-      <style jsx>{`
-        .main-layout {
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .main-content {
-          flex: 1;
-          width: 100%;
-        }
-
-        @media (max-width: 768px) {
-          .main-layout {
-            min-height: 100dvh;
-          }
-        }
-      `}</style>
+      
+      {showFooter && <Footer />}
     </div>
-  )
+  );
 }

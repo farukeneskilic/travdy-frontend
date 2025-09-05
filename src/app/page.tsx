@@ -1,203 +1,149 @@
-'use client'
+import React from 'react';
+import Link from 'next/link';
+import MainLayout from './components/layouts/MainLayout';
+import EnhancedHeroSearch from './components/EnhancedHeroSearch';
+import TrendingDestinations from './components/TrendingDestinations';
+import TrendingActivities from './components/TrendingActivities';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import BaseLayout from './components/layouts/BaseLayout'
-import Section from './components/Section'
-import CarouselSection from './components/CarouselSection'
-import AttractionCard from './components/AttractionCard'
-import { getFeaturedCities, getTopAttractions } from '@/app/lib/api'
-import HeroSearch from './components/HeroSearch'
-import { Attraction } from './components/AttractionCard'
+export default function HomePage() {
+  return (
+    <MainLayout>
+      {/* Hero Journey Section - Where/When/Who */}
+      <EnhancedHeroSearch />
 
-export default function Home() {
-  const [cities, setCities] = useState<Attraction[]>([])
-  const [attractions, setAttractions] = useState<Attraction[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+      {/* Trending Destinations */}
+      <TrendingDestinations />
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const [citiesData, attractionsData] = await Promise.all([
-          getFeaturedCities(), 
-          getTopAttractions()
-        ])
-        setCities(citiesData)
-        setAttractions(attractionsData)
-      } catch (error) {
-        console.error('Failed to load data:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    
-    loadData()
-  }, [])
+      {/* Trending Activities */}
+      <TrendingActivities />
 
-  if (isLoading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
-          <p>Loading amazing destinations...</p>
-        </div>
-      </div>
-    )
-  }
-
-    return (
-    <BaseLayout>
-      {/* Hero Section */}
-      <section className="container hero-section">
-        <div className="hero" aria-label="Discover the best sights with Travdy">
-          <Image
-            src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=1600&auto=format&fit=crop"
-            alt="Beautiful travel destination landscape"
-            width={1600} 
-            height={800} 
-            className="hero-image" 
-            priority
-          />
-          <div className="hero-content">
-            <h1 className="hero-title">
-              Discover the best sights with Travdy
-            </h1>
-            <p className="hero-subtitle">
-              Explore amazing attractions in your city!
+      {/* Quick Access to Other Sections */}
+      <section className="section bg-gradient-hero">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              🚀 Your Travel Toolkit
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Everything you need to plan, budget, and enjoy your perfect trip.
             </p>
-            <HeroSearch />
           </div>
-        </div>
-      </section>
 
-      {/* Top Attractions Grid */}
-      <Section id="attractions" title="Top attractions">
-        {cities.map(city => (
-          <AttractionCard key={city.id} attraction={city} />
-        ))}
-      </Section>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Budget Tool */}
+            <div className="card card-glass hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 text-center animate-scale-in">
+              <div className="text-6xl mb-6">💰</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Budget</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Calculate costs, track expenses, and get real-time budget suggestions based on your preferences.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">🏨 Accommodation</span>
+                  <span className="font-semibold">Auto-calculated</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">🍽️ Food & Dining</span>
+                  <span className="font-semibold">Real-time pricing</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">🎯 Activities</span>
+                  <span className="font-semibold">Budget-aware</span>
+                </div>
+              </div>
+              <Link href="/budget" className="btn btn-secondary w-full mt-6">
+                Plan Budget
+              </Link>
+            </div>
 
-      {/* Highly Rated Attractions Carousel */}
-      <CarouselSection id="top-picks" title="Highly rated attractions">
-        {attractions.map(attraction => (
-          <AttractionCard key={attraction.id} attraction={attraction} />
-        ))}
-      </CarouselSection>
+            {/* Activities Finder */}
+            <div className="card card-glass hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 text-center animate-scale-in" style={{ animationDelay: '0.1s' }}>
+              <div className="text-6xl mb-6">🎯</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Find Activities</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Discover experiences based on your interests, budget, and group preferences with popularity insights.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['🎵 Concerts', '🏛️ Cultural', '🍽️ Food Tours', '👥 Meetups', '🗺️ Local Guides'].map((tag) => (
+                  <span key={tag} className="bg-turquoise-100 text-turquoise-700 text-xs px-2 py-1 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <Link href="/activities" className="btn btn-primary w-full">
+                Explore Activities
+              </Link>
+            </div>
 
-      {/* Newsletter Signup Banner */}
-      <section className="container newsletter-section">
-        <div className="banner">
-          <div className="banner-content">
-            <span className="banner-icon">✈️</span>
-            <div className="banner-text">
-              <strong>Ready for your next adventure?</strong>
-              <p>Join our Travel Club for exclusive deals, insider tips, and personalized recommendations!</p>
+            {/* Travel Buddy */}
+            <div className="card card-glass hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 text-center animate-scale-in" style={{ animationDelay: '0.2s' }}>
+              <div className="text-6xl mb-6">🧳</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Travel Buddy</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Your AI travel companion with packing lists, weather-based suggestions, and daily itinerary planning.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">📦 Smart Packing</span>
+                  <span className="font-semibold">Weather-based</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">📅 Daily Plans</span>
+                  <span className="font-semibold">Optimized routes</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">💡 AI Suggestions</span>
+                  <span className="font-semibold">Personalized</span>
+                </div>
+              </div>
+              <Link href="/travel-buddy" className="btn btn-accent w-full mt-6">
+                Get Assistant
+              </Link>
             </div>
           </div>
-          <button className="btn btn-white" type="button">
-            Start Exploring
-          </button>
         </div>
       </section>
 
+      {/* Call to Action */}
+      <section className="section bg-gradient-sunset text-white">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto animate-fade-in">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+              Ready for your next adventure?
+            </h2>
+            <p className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed">
+              Join thousands of travelers who trust Travdy to create unforgettable journeys. 
+              Start planning your perfect trip today.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+              <Link href="/travel-buddy" className="btn bg-white text-orange-600 hover:bg-gray-100 text-lg px-8 py-4 font-semibold">
+                Start Planning Now
+                <span className="ml-2">✈️</span>
+              </Link>
+              <Link href="/activities" className="btn btn-outline border-white text-white hover:bg-white hover:text-orange-600 text-lg px-8 py-4">
+                Explore Activities
+                <span className="ml-2">🎯</span>
+              </Link>
+            </div>
 
-
-      <style jsx>{`
-        .hero-section {
-          margin-top: 1rem;
-        }
-
-        .hero-title {
-          font-size: 3rem;
-          font-weight: 800;
-          margin: 0;
-          line-height: 1.1;
-          background: var(--td-gradient-primary);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .hero-subtitle {
-          opacity: 0.95;
-          margin: 0.375rem 0 0.875rem;
-          font-size: 1.125rem;
-        }
-
-        .newsletter-section {
-          margin: 3rem 0;
-        }
-
-        .banner {
-          background: var(--td-gradient-primary);
-          color: white;
-          padding: 2.5rem;
-          border-radius: var(--td-radius-lg);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 2rem;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .banner::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-          background-size: 20px 20px;
-          animation: float 20s infinite linear;
-          pointer-events: none;
-        }
-
-        @keyframes float {
-          0% { transform: translateX(-100px) translateY(-100px) rotate(0deg); }
-          100% { transform: translateX(0px) translateY(0px) rotate(360deg); }
-        }
-
-        .banner-content {
-          display: flex;
-          gap: 1rem;
-          align-items: center;
-          position: relative;
-          z-index: 1;
-        }
-
-        .banner-icon {
-          width: 3rem;
-          height: 3rem;
-          display: grid;
-          place-items: center;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: var(--td-radius);
-          backdrop-filter: blur(10px);
-          font-size: 1.5rem;
-        }
-
-        .banner-text p {
-          opacity: 0.7;
-          margin: 0;
-        }
-
-
-
-        @media (max-width: 768px) {
-          .hero-title {
-            font-size: 1.875rem;
-          }
-
-          .banner-content {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-          }
-        }
-      `}</style>
-    </BaseLayout>
-  )
+            {/* Trust Indicators */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 opacity-80">
+              {[
+                { number: '50K+', label: 'Happy Travelers' },
+                { number: '200+', label: 'Destinations' },
+                { number: '10K+', label: 'Activities' },
+                { number: '4.9⭐', label: 'User Rating' },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold">{stat.number}</div>
+                  <div className="text-white/80">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </MainLayout>
+  );
 }

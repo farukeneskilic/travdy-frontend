@@ -37,6 +37,7 @@ src/
 - **🧪 Unit Testing**: Comprehensive test coverage with Jest and Testing Library
 - **🔄 Error Handling**: Robust error handling and user feedback
 - **🎯 Type Safety**: Full TypeScript implementation
+- **🌐 API Integration**: Frontend-only architecture with all data operations via Spring Boot backend
 
 ### 🎯 Travel Planning Features
 
@@ -159,15 +160,20 @@ npm run dev
 
 ### Environment Variables
 
+Create a `.env.local` file with the following configuration:
+
 ```env
-# Spring Boot Backend URL
+# Spring Boot Backend URL (where your database operations are handled)
 SPRING_BACKEND_URL=http://localhost:8080
 
-# Next.js Public API Base (for client-side requests)
+# Next.js Public API Base (for client-side requests to proxy routes)
 NEXT_PUBLIC_API_BASE=http://localhost:3000/api
 
-# Security
+# Application Environment
 NODE_ENV=development
+
+# Note: No database configuration needed here - all database operations
+# are handled by the Spring Boot backend
 ```
 
 ### Available Scripts
@@ -201,8 +207,8 @@ Orchestrates business logic and manages application state:
 ### Infrastructure Layer (`src/infrastructure/`)
 Handles external concerns and technical implementations:
 
-- **API Client**: HTTP communication with backend
-- **Repository Implementations**: Concrete data access implementations
+- **API Client**: HTTP communication with Spring Boot backend
+- **Repository Implementations**: API-based data access (no direct database connections)
 - **Dependency Injection**: IoC container for managing dependencies
 
 ### Presentation Layer (`src/app/`)
@@ -211,6 +217,36 @@ Next.js App Router structure with UI components:
 - **Pages**: Route-based page components
 - **Components**: Reusable UI components
 - **API Routes**: Backend proxy endpoints
+
+## 🔌 Spring Boot Integration
+
+This frontend is designed to work seamlessly with a Spring Boot backend:
+
+### Data Flow
+1. **Frontend Components** → Make API calls using the API client
+2. **Next.js API Routes** (`/src/app/api/*`) → Proxy requests to Spring Boot
+3. **Spring Boot Backend** → Handles all database operations and business logic
+4. **Database** → Managed entirely by Spring Boot (PostgreSQL, MySQL, etc.)
+
+### Key Benefits
+- **No Database Dependencies**: Frontend has zero database configuration
+- **Stateless Frontend**: All data persistence handled by Spring Boot
+- **Security**: JWT tokens managed by Spring Boot with secure HTTP-only cookies
+- **Scalability**: Frontend and backend can be deployed independently
+
+### Authentication Flow
+1. User submits login credentials to Next.js `/api/auth/login`
+2. Next.js proxies request to Spring Boot `/api/auth/login`
+3. Spring Boot validates credentials against database
+4. Spring Boot returns JWT token and user data
+5. Next.js sets secure HTTP-only cookies and returns user data
+
+### API Client Configuration
+All repository implementations use the `ApiClient` class that:
+- Automatically includes JWT tokens in requests
+- Handles token refresh logic
+- Provides consistent error handling
+- Routes all requests to Spring Boot endpoints
 
 ## 🎨 Design System
 
